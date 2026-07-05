@@ -71,14 +71,12 @@ export function DashboardPreview() {
         </div>
 
         {/* Dashboard content */}
-        <div className="pointer-events-none select-none">
-          <DashboardContent
-            stats={stats}
-            meetings={meetings}
-            timeline={timeline}
-            actionItems={actionItems}
-          />
-        </div>
+        <DashboardContent
+          stats={stats}
+          meetings={meetings}
+          timeline={timeline}
+          actionItems={actionItems}
+        />
       </motion.div>
     </motion.div>
   )
