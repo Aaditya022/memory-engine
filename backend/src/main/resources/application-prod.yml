@@ -1,0 +1,23 @@
+# Activated via SPRING_PROFILES_ACTIVE=prod (set this in docker-compose.prod.yml / your
+# production environment). Layers stricter defaults on top of application.yml.
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  data:
+    redis:
+      # In production, prefer a Redis instance with auth enabled and TLS if it
+      # crosses a network boundary. Set REDIS_PASSWORD and uncomment below.
+      # password: ${REDIS_PASSWORD:}
+
+logging:
+  level:
+    com.mnemo.memoryengine: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.security: WARN
+
+management:
+  endpoint:
+    health:
+      show-details: never

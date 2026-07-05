@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "screenshots": "node scripts/screenshot.mjs"
+  },
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.16.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

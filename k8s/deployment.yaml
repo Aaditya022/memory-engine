@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memory-engine
+  namespace: memory-engine
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: memory-engine
+  template:
+    metadata:
+      labels:
+        app: memory-engine
+    spec:
+      containers:
+        - name: memory-engine
+          # Build and push this image yourself: docker build -t <registry>/memory-engine:<tag> ./backend
+          image: REPLACE_WITH_YOUR_REGISTRY/memory-engine:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: memory-engine-config
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: memory-engine-secrets
+                  key: JWT_SECRET
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: memory-engine-secrets
+                  key: DB_PASSWORD
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: memory-engine-secrets
+                  key: GEMINI_API_KEY
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 20

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: memory-engine
+  namespace: memory-engine
+spec:
+  selector:
+    app: memory-engine
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
