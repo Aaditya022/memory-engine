@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import {
   Brain, Users, Calendar, GitBranch, ClipboardCheck,
   MessageSquare, FolderOpen, Network, ZoomIn, ZoomOut,
@@ -31,14 +31,14 @@ const nodes: GraphNode[] = [
 ]
 
 const groupColors: Record<string, string> = {
-  center: 'oklch(0.546 0.245 262.881)',
-  meetings: 'oklch(0.546 0.245 262.881 / 0.7)',
-  people: 'oklch(0.696 0.17 162.48 / 0.7)',
-  memories: 'oklch(0.769 0.188 70.08 / 0.7)',
-  decisions: 'oklch(0.627 0.265 303.9 / 0.7)',
-  actions: 'oklch(0.645 0.246 16.439 / 0.7)',
-  projects: 'oklch(0.488 0.243 264.376 / 0.7)',
-  connections: 'oklch(0.6 0.118 184.704 / 0.7)',
+  center: '#4F8BFF',
+  meetings: '#4F8BFF',
+  people: '#10B981',
+  memories: '#F59E0B',
+  decisions: '#8C6BFF',
+  actions: '#EF4444',
+  projects: '#4F8BFF',
+  connections: '#00D4FF',
 }
 
 const groupIcons: Record<string, React.ElementType> = {
@@ -52,10 +52,38 @@ const groupIcons: Record<string, React.ElementType> = {
   connections: MessageSquare,
 }
 
+const brand = '#4F8BFF'
+const accent = '#00D4FF'
+const purple = '#8C6BFF'
+
+interface Particle {
+  id: number
+  x: number
+  y: number
+  size: number
+  color: string
+  duration: number
+  delay: number
+}
+
 export function KnowledgeGraph() {
   const [selected, setSelected] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
   const [zoom, setZoom] = useState(1)
+  const [particles, setParticles] = useState<Particle[]>([])
+
+  useEffect(() => {
+    const p: Particle[] = Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 400,
+      y: Math.random() * 280,
+      size: 1 + Math.random() * 2,
+      color: [brand, accent, purple][i % 3],
+      duration: 3 + Math.random() * 4,
+      delay: Math.random() * 3,
+    }))
+    setParticles(p)
+  }, [])
 
   const edges: [string, string][] = [
     ['center', 'meetings'],
@@ -75,7 +103,7 @@ export function KnowledgeGraph() {
   ]
 
   return (
-    <div className="relative w-full h-[300px] overflow-hidden rounded-xl bg-gradient-to-br from-primary/[0.02] to-transparent">
+    <div className="relative w-full h-[320px] overflow-hidden rounded-xl bg-gradient-to-br from-primary/[0.02] to-transparent">
       <div className="absolute top-2 right-2 z-10 flex gap-1">
         <button
           onClick={() => setZoom((z) => Math.min(z + 0.2, 2))}
@@ -100,15 +128,20 @@ export function KnowledgeGraph() {
       <svg
         width="100%"
         height="100%"
-        viewBox="0 0 400 280"
+        viewBox="0 0 400 320"
         className="w-full h-full transition-transform duration-300"
         style={{ transform: `scale(${zoom})`, transformOrigin: 'center center', cursor: 'pointer' }}
       >
         <defs>
           <radialGradient id="centerGlowKG" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="oklch(0.546 0.245 262.881 / 0.25)" />
-            <stop offset="100%" stopColor="oklch(0.546 0.245 262.881 / 0)" />
+            <stop offset="0%" stopColor={`${brand}40`} />
+            <stop offset="100%" stopColor={`${brand}00`} />
           </radialGradient>
+          <linearGradient id="edgeGradKG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={`${brand}30`} />
+            <stop offset="50%" stopColor={`${accent}20`} />
+            <stop offset="100%" stopColor={`${purple}30`} />
+          </linearGradient>
           {[...new Set(edges.flat())].map((id) => {
             const node = nodes.find((n) => n.id === id)
             if (!node) return null
@@ -121,24 +154,56 @@ export function KnowledgeGraph() {
           })}
         </defs>
 
-        <circle cx="200" cy="140" r="120" fill="url(#centerGlowKG)" />
+        <circle cx="200" cy="140" r="130" fill="url(#centerGlowKG)" />
 
+        {/* Particles */}
+        {particles.map((p) => (
+          <motion.circle
+            key={p.id}
+            cx={p.x}
+            cy={p.y}
+            r={p.size}
+            fill={p.color}
+            opacity={0.4}
+            animate={{
+              y: [p.y, p.y - 40 - Math.random() * 30, p.y],
+              x: [p.x, p.x + (Math.random() - 0.5) * 30, p.x],
+              opacity: [0, 0.6, 0],
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: 'easeInOut',
+            }}
+          />
+        ))}
+
+        {/* Animated edges with flowing effect */}
         {edges.map(([src, tgt], i) => {
           const s = nodes.find((n) => n.id === src)
           const t = nodes.find((n) => n.id === tgt)
           if (!s || !t) return null
           const isHighlighted = selected === null || selected === src || selected === tgt
           return (
-            <line
-              key={i}
-              x1={s.x}
-              y1={s.y}
-              x2={t.x}
-              y2={t.y}
-              stroke={isHighlighted ? 'oklch(1 0 0 / 0.12)' : 'oklch(1 0 0 / 0.03)'}
-              strokeWidth={isHighlighted ? 1.5 : 0.5}
-              className="transition-all duration-500"
-            />
+            <g key={i}>
+              <line
+                x1={s.x} y1={s.y} x2={t.x} y2={t.y}
+                stroke={isHighlighted ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.03)'}
+                strokeWidth={isHighlighted ? 1.5 : 0.5}
+                className="transition-all duration-500"
+              />
+              <motion.line
+                x1={s.x} y1={s.y} x2={t.x} y2={t.y}
+                stroke="url(#edgeGradKG)"
+                strokeWidth={isHighlighted ? 1 : 0.5}
+                strokeDasharray="200"
+                initial={{ strokeDashoffset: 200 }}
+                whileInView={{ strokeDashoffset: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, delay: i * 0.1, ease: 'linear' }}
+              />
+            </g>
           )
         })}
 
@@ -161,7 +226,7 @@ export function KnowledgeGraph() {
                 cx={node.x}
                 cy={node.y}
                 r={r + (isHovered ? 5 : 0)}
-                fill={isSelected ? groupColors[node.group] : 'oklch(1 0 0 / 0.03)'}
+                fill={isSelected ? groupColors[node.group] : 'rgba(255,255,255,0.03)'}
                 stroke={groupColors[node.group]}
                 strokeWidth={isSelected ? 2 : 0.5}
                 opacity={isSelected ? 1 : 0.3}
@@ -169,9 +234,24 @@ export function KnowledgeGraph() {
               />
               {isCenter && (
                 <>
-                  <circle cx={node.x} cy={node.y} r={r + 10} fill="none" stroke="oklch(0.546 0.245 262.881 / 0.2)" strokeWidth="1" className="animate-pulse-soft" />
-                  <circle cx={node.x} cy={node.y} r={r + 20} fill="none" stroke="oklch(0.546 0.245 262.881 / 0.1)" strokeWidth="0.5" className="animate-pulse-soft" style={{ animationDelay: '1s' }} />
-                  <circle cx={node.x} cy={node.y} r={r + 32} fill="none" stroke="oklch(0.546 0.245 262.881 / 0.05)" strokeWidth="0.5" className="animate-pulse-soft" style={{ animationDelay: '2s' }} />
+                  <motion.circle
+                    cx={node.x} cy={node.y} r={r + 10}
+                    fill="none" stroke={`${brand}30`} strokeWidth="1"
+                    animate={{ r: [r + 10, r + 15, r + 10], opacity: [0.3, 0.1, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  <motion.circle
+                    cx={node.x} cy={node.y} r={r + 20}
+                    fill="none" stroke={`${brand}20`} strokeWidth="0.5"
+                    animate={{ r: [r + 20, r + 28, r + 20], opacity: [0.2, 0.05, 0.2] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  />
+                  <motion.circle
+                    cx={node.x} cy={node.y} r={r + 32}
+                    fill="none" stroke={`${brand}10`} strokeWidth="0.5"
+                    animate={{ r: [r + 32, r + 42, r + 32], opacity: [0.1, 0.03, 0.1] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+                  />
                 </>
               )}
               <foreignObject
