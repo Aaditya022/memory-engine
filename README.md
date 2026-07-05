@@ -216,22 +216,6 @@ All endpoints return: `{ "success": true, "data": {}, "message": "...", "timesta
 
 <br>
 
-<h2 id="screenshots">Screenshots</h2>
-
-| Page | Preview |
-|------|---------|
-| **Landing** | <img src="docs/screenshots/landing.png" alt="Landing" width="320"> |
-| **Dashboard** | <img src="docs/screenshots/dashboard.png" alt="Dashboard" width="320"> |
-| **Knowledge Graph** | <img src="docs/screenshots/knowledge-graph.png" alt="Knowledge Graph" width="320"> |
-| **AI Chat** | <img src="docs/screenshots/ai-chat.png" alt="AI Chat" width="320"> |
-| **Semantic Search** | <img src="docs/screenshots/semantic-search.png" alt="Search" width="320"> |
-| **Meeting Details** | <img src="docs/screenshots/meeting-details.png" alt="Meeting" width="320"> |
-| **Login** | <img src="docs/screenshots/login.png" alt="Login" width="320"> |
-
-<br>
-
-<h2 id="roadmap">Roadmap</h2>
-
 **Current:** Meeting ingestion, Entity extraction, Knowledge graph, Semantic search, Decision intelligence, Action items, Activity timeline, Dashboard, AI Chat, JWT + RBAC, Audit, Docker Compose, Kubernetes, CI/CD, Monitoring
 
 **Upcoming:** Slack integration, Notion/Google Drive connectors, Real-time decision collaboration, Graph analytics, Custom LLM support, Webhooks, Multi-language extraction, SSO/SAML, Data export
