@@ -1,19 +1,22 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { PageHeader } from '@/components/shared/page-header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { LogOut, User, Shield, Bell, Palette, Key, ChevronRight } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
+import { LogOut, User, Shield, Bell, Palette, Key } from 'lucide-react'
 import { useAuth } from '@/providers/auth-provider'
 import { useRouter } from 'next/navigation'
+import { useTheme } from '@/providers/theme-provider'
 import { toast } from 'sonner'
 
 export default function SettingsPage() {
   const { user, logout } = useAuth()
+  const { theme, setTheme } = useTheme()
   const router = useRouter()
+  const [notifications, setNotifications] = useState(true)
 
   const handleLogout = async () => {
     await logout()
@@ -45,16 +48,16 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-muted-foreground/80">User ID</Label>
-                <Input value={user?.userId || ''} readOnly className="bg-background/50 rounded-xl" />
+                <label className="text-xs font-medium text-muted-foreground/80">User ID</label>
+                <div className="rounded-xl border border-border/50 bg-background/50 px-3 py-2 text-sm text-foreground/80">{user?.userId || ''}</div>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-muted-foreground/80">Role</Label>
-                <Input value={user?.role?.toLowerCase() || ''} readOnly className="bg-background/50 rounded-xl capitalize" />
+                <label className="text-xs font-medium text-muted-foreground/80">Role</label>
+                <div className="rounded-xl border border-border/50 bg-background/50 px-3 py-2 text-sm text-foreground/80 capitalize">{user?.role?.toLowerCase() || ''}</div>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-muted-foreground/80">Organization ID</Label>
-                <Input value={user?.organizationId || ''} readOnly className="bg-background/50 rounded-xl" />
+                <label className="text-xs font-medium text-muted-foreground/80">Organization ID</label>
+                <div className="rounded-xl border border-border/50 bg-background/50 px-3 py-2 text-sm text-foreground/80">{user?.organizationId || ''}</div>
               </div>
             </CardContent>
           </Card>
@@ -66,13 +69,40 @@ export default function SettingsPage() {
                   <Shield className="h-4 w-4 text-emerald-500" />
                 </div>
                 <div>
-                  <CardTitle className="text-base font-semibold">Security</CardTitle>
-                  <p className="text-xs text-muted-foreground/60 mt-0.5">Manage your security preferences</p>
+                  <CardTitle className="text-base font-semibold">Preferences</CardTitle>
+                  <p className="text-xs text-muted-foreground/60 mt-0.5">Manage your preferences</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-0">
-              <div className="flex items-center justify-between py-3 border-b border-border/30">
+              <div className="flex items-center justify-between py-4 border-b border-border/30">
+                <div className="flex items-center gap-3">
+                  <Palette className="h-4 w-4 text-muted-foreground/60" />
+                  <div>
+                    <p className="text-sm font-medium">Theme</p>
+                    <p className="text-xs text-muted-foreground/60">Switch between light and dark mode</p>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  className="rounded-lg min-w-[100px]"
+                >
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </Button>
+              </div>
+              <div className="flex items-center justify-between py-4 border-b border-border/30">
+                <div className="flex items-center gap-3">
+                  <Bell className="h-4 w-4 text-muted-foreground/60" />
+                  <div>
+                    <p className="text-sm font-medium">Notifications</p>
+                    <p className="text-xs text-muted-foreground/60">Push and email notifications</p>
+                  </div>
+                </div>
+                <Switch checked={notifications} onCheckedChange={setNotifications} />
+              </div>
+              <div className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-3">
                   <Key className="h-4 w-4 text-muted-foreground/60" />
                   <div>
@@ -80,27 +110,9 @@ export default function SettingsPage() {
                     <p className="text-xs text-muted-foreground/60">Manage your API access tokens</p>
                   </div>
                 </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground/30" />
-              </div>
-              <div className="flex items-center justify-between py-3 border-b border-border/30">
-                <div className="flex items-center gap-3">
-                  <Bell className="h-4 w-4 text-muted-foreground/60" />
-                  <div>
-                    <p className="text-sm font-medium">Notifications</p>
-                    <p className="text-xs text-muted-foreground/60">Configure notification preferences</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground/30" />
-              </div>
-              <div className="flex items-center justify-between py-3">
-                <div className="flex items-center gap-3">
-                  <Palette className="h-4 w-4 text-muted-foreground/60" />
-                  <div>
-                    <p className="text-sm font-medium">Appearance</p>
-                    <p className="text-xs text-muted-foreground/60">Customize the interface</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground/30" />
+                <Button variant="outline" size="sm" className="rounded-lg" onClick={() => toast.info('API key management coming soon')}>
+                  Manage
+                </Button>
               </div>
             </CardContent>
           </Card>

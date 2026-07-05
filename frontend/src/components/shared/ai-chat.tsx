@@ -94,7 +94,7 @@ export function AIChat() {
       id: 'welcome',
       role: 'assistant',
       content: "Hello! I'm your Memory Engine AI assistant. I can help you search through meeting memories, find decisions, track action items, and more. Try asking me something!",
-      timestamp: new Date(),
+      timestamp: new Date(0),
     },
   ])
   const [input, setInput] = useState('')

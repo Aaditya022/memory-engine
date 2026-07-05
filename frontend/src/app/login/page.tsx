@@ -45,7 +45,7 @@ export default function LoginPage() {
         })
         toast.success('Account created')
       }
-      router.push('/')
+      router.push('/dashboard')
     } catch (error: unknown) {
       const message =
         (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||

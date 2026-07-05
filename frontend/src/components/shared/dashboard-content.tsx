@@ -173,13 +173,14 @@ const SectionHeader = memo(function SectionHeader({
 })
 
 function DashboardHero({
-  stats, greeting, timeGreeting, searchQuery, searchResults, searching, searchRef, onSearchChange, onClearSearch,
+  stats, greeting, timeGreeting, searchQuery, searchResults, searching, searchRef, onSearchChange, onClearSearch, mounted,
 }: {
   stats: { memories: number; meetings: number; decisions: number; actions: number }
   greeting: string; timeGreeting: string
   searchQuery: string; searchResults: SearchResultItem[]; searching: boolean
   searchRef: React.RefObject<HTMLInputElement | null>
   onSearchChange: (q: string) => void; onClearSearch: () => void
+  mounted: boolean
 }) {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-primary/[0.06] bg-gradient-to-br from-primary/[0.05] via-primary/[0.02] to-background p-6 lg:p-8">
@@ -393,6 +394,7 @@ export function DashboardContent({ stats, meetings, timeline, actionItems, searc
           searchRef={searchRef}
           onSearchChange={handleSearch}
           onClearSearch={() => { setSearchQuery(''); setSearchResults([]); searchRef.current?.focus() }}
+          mounted={mounted}
         />
       </motion.div>
 

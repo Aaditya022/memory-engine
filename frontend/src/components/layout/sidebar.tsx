@@ -35,17 +35,17 @@ interface NavItem {
 }
 
 const mainNav: NavItem[] = [
-  { title: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { title: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { title: 'Meetings', href: '/meetings', icon: Calendar },
   { title: 'Memory Search', href: '/search', icon: Search },
-  { title: 'Knowledge Graph', href: '/search?tab=graph', icon: Network },
+  { title: 'Knowledge Graph', href: '/knowledge-graph', icon: Network },
   { title: 'Timeline', href: '/timeline', icon: Clock },
 ]
 
 const workspaceNav: NavItem[] = [
   { title: 'Transcripts', href: '/transcripts', icon: MessageSquare },
   { title: 'Projects', href: '/goals', icon: FolderOpen },
-  { title: 'People', href: '/settings', icon: Users },
+  { title: 'People', href: '/search', icon: Users },
   { title: 'Action Items', href: '/action-items', icon: ClipboardList },
   { title: 'Decisions', href: '/decisions', icon: GitBranch },
 ]

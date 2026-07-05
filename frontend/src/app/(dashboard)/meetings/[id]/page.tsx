@@ -248,19 +248,6 @@ export default function MeetingDetailPage() {
             </div>
           )}
 
-          {meeting.durationSeconds && (
-            <Card className="bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  Duration
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm">{Math.round(meeting.durationSeconds / 60)} minutes</p>
-              </CardContent>
-            </Card>
-          )}
         </TabsContent>
 
         <TabsContent value="transcript" className="mt-0">

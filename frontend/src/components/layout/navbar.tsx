@@ -153,7 +153,7 @@ export function Navbar() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Quick Navigation">
-            <CommandItem onSelect={() => { router.push('/'); setCommandOpen(false) }}>
+            <CommandItem onSelect={() => { router.push('/dashboard'); setCommandOpen(false) }}>
               <LayoutDashboard className="mr-2 h-4 w-4" />
               Dashboard
             </CommandItem>
