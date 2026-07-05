@@ -116,18 +116,18 @@ See [`docs/architecture/`](docs/architecture/) for detailed architecture documen
 
 <h2 id="stack">Technology Stack</h2>
 
-| Layer | Technologies |
-|-------|-------------|
-| **Backend** | Java 21, Spring Boot 3.3, Maven, Lombok, JJWT |
-| **Frontend** | Next.js 16, React 19, TypeScript 5, Tailwind CSS 4, shadcn/ui, Framer Motion, Recharts |
-| **AI / LLM** | Google Gemini (text-embedding-004, gemini-2.5-flash), Cognee AI Engine |
-| **Storage** | PostgreSQL 16 + pgvector, Redis 7, Apache Kafka 4.0 |
-| **Search** | Hybrid (vector similarity + graph traversal + BM25 fusion) |
-| **Auth** | JWT with refresh rotation, RBAC (Admin, Manager, Employee) |
-| **DevOps** | Docker, Docker Compose, Kubernetes (HPA, Ingress), Nginx, cert-manager |
-| **CI/CD** | GitHub Actions with Testcontainers, Flyway migrations |
-| **Monitoring** | Prometheus, Grafana, Spring Actuator, Micrometer |
-| **Docs** | Swagger / OpenAPI (Springdoc), architecture docs, deployment guides |
+| Category | Technologies |
+|----------|-------------|
+| **Backend** | Java 21, Spring Boot 3, Spring Security, Spring Data JPA, Hibernate, Maven, Flyway, Lombok, Jakarta Validation, Async Processing |
+| **Frontend** | Next.js 15, React 19, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion, Lucide React |
+| **AI / LLM** | Cognee, Google Gemini, Knowledge Graph, Hybrid Search, Semantic Search, Vector Embeddings, Organizational Memory, Entity Extraction, Decision Engine, Action Item Engine, Timeline Engine |
+| **Memory Layer** | Cognee Knowledge Graph, Persistent Organizational Memory, Entity Relationship Mapping, Graph Construction |
+| **Search Engine** | BM25, Vector Search (pgvector), Cosine Similarity, Hybrid Fusion |
+| **Authentication** | JWT (JJWT), RBAC (Admin / Manager / Employee), Refresh Token Rotation |
+| **Database** | PostgreSQL 16 + pgvector, Redis 7, Kafka 4.0, Flyway Migrations |
+| **DevOps** | Docker, Docker Compose, Kubernetes (HPA, Ingress, ConfigMap), Nginx, GitHub Actions |
+| **Monitoring** | Prometheus, Grafana, Micrometer, Spring Actuator |
+| **Documentation** | Swagger / OpenAPI (Springdoc), Architecture Diagrams, API Documentation |
 
 <br>
 
