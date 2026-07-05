@@ -13,8 +13,11 @@ export function DashboardPreview() {
     actions: DEMO.actionItems,
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const meetings = demoRecentMeetings as unknown as any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const timeline = demoTimelineEvents as unknown as any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const actionItems = demoActionItems as unknown as any[]
 
   const ref = useRef<HTMLDivElement>(null)

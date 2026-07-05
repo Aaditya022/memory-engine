@@ -1,6 +1,8 @@
 import { subDays, subHours, subMinutes } from 'date-fns'
 import type { MeetingSource, ActionItemStatus } from '@/types/api'
 
+const BASE_DATE = new Date('2026-07-05T00:00:00Z')
+
 export const DEMO = {
   meetings: 143,
   memories: 12847,
@@ -107,7 +109,7 @@ export const demoRecentMeetings = Array.from({ length: 8 }, (_, i) => ({
     'Team Retrospective',
   ][i],
   source: i % 3 === 0 ? 'zoom' as MeetingSource : i % 3 === 1 ? 'meet' as MeetingSource : 'manual' as MeetingSource,
-  startedAt: subDays(new Date(), i * 3).toISOString(),
+  startedAt: subDays(BASE_DATE, i * 3).toISOString(),
   durationSeconds: [2700, 3600, 4500, 5400, 1800, 3600, 4800, 2400][i],
   participants: [
     ['Sarah Chen', 'Marcus Johnson', 'Elena Rodriguez'],
@@ -119,7 +121,7 @@ export const demoRecentMeetings = Array.from({ length: 8 }, (_, i) => ({
     ['Alex Kim', 'Priya Patel', 'David Park'],
     ['Sarah Chen', 'Elena Rodriguez', 'Marcus Johnson'],
   ][i],
-  createdAt: subDays(new Date(), i * 2 + 1).toISOString(),
+  createdAt: subDays(BASE_DATE, i * 2 + 1).toISOString(),
   memoriesExtracted: [34, 28, 52, 41, 18, 94, 37, 22],
   decisions: [4, 3, 7, 5, 2, 11, 6, 3],
   actionItems: [12, 8, 15, 10, 5, 22, 14, 9],
@@ -171,8 +173,8 @@ export const demoActivityFeed = Array.from({ length: 12 }, (_, i) => ({
     'Alex Kim', 'Priya Patel', 'David Park', 'Sarah Chen',
     'Alex Kim', 'Elena Rodriguez', 'Marcus Johnson', 'Priya Patel', 'Sarah Chen',
   ][i],
-  createdAt: subMinutes(subHours(new Date(), i * 2), i * 15).toISOString(),
-  eventDate: subDays(new Date(), Math.floor(i / 2)).toISOString(),
+  createdAt: subMinutes(subHours(BASE_DATE, i * 2), i * 15).toISOString(),
+  eventDate: subDays(BASE_DATE, Math.floor(i / 2)).toISOString(),
 }))
 
 export const demoSearchResults = [
@@ -186,7 +188,7 @@ export const demoSearchResults = [
     bm25Score: 0.89,
     vectorScore: 0.94,
     finalScore: 0.92,
-    createdAt: subDays(new Date(), 3).toISOString(),
+    createdAt: subDays(BASE_DATE, 3).toISOString(),
   },
   {
     memoryId: 'demo-result-2',
@@ -198,7 +200,7 @@ export const demoSearchResults = [
     bm25Score: 0.85,
     vectorScore: 0.91,
     finalScore: 0.88,
-    createdAt: subDays(new Date(), 5).toISOString(),
+    createdAt: subDays(BASE_DATE, 5).toISOString(),
   },
   {
     memoryId: 'demo-result-3',
@@ -210,7 +212,7 @@ export const demoSearchResults = [
     bm25Score: 0.82,
     vectorScore: 0.88,
     finalScore: 0.85,
-    createdAt: subDays(new Date(), 2).toISOString(),
+    createdAt: subDays(BASE_DATE, 2).toISOString(),
   },
   {
     memoryId: 'demo-result-4',
@@ -222,7 +224,7 @@ export const demoSearchResults = [
     bm25Score: 0.78,
     vectorScore: 0.84,
     finalScore: 0.81,
-    createdAt: subDays(new Date(), 4).toISOString(),
+    createdAt: subDays(BASE_DATE, 4).toISOString(),
   },
   {
     memoryId: 'demo-result-5',
@@ -234,7 +236,7 @@ export const demoSearchResults = [
     bm25Score: 0.75,
     vectorScore: 0.80,
     finalScore: 0.78,
-    createdAt: subDays(new Date(), 1).toISOString(),
+    createdAt: subDays(BASE_DATE, 1).toISOString(),
   },
 ]
 
@@ -250,20 +252,20 @@ export const demoTimelineEvents = demoActivityFeed.map((a) => ({
 }))
 
 export const demoActionItems = [
-  { id: 'demo-ai-1', meetingId: 'demo-meeting-1', ownerName: 'Sarah Chen', task: 'Finalize API contract for memory search endpoint', deadline: subDays(new Date(), -3).toISOString(), status: 'IN_PROGRESS' as ActionItemStatus, priority: 'HIGH', createdAt: subDays(new Date(), 5).toISOString() },
-  { id: 'demo-ai-2', meetingId: 'demo-meeting-2', ownerName: 'Alex Kim', task: 'Investigate alternative text embedding models', deadline: subDays(new Date(), -7).toISOString(), status: 'PENDING' as ActionItemStatus, priority: 'MEDIUM', createdAt: subDays(new Date(), 4).toISOString() },
-  { id: 'demo-ai-3', meetingId: 'demo-meeting-3', ownerName: 'Elena Rodriguez', task: 'Create migration plan for micro-frontend architecture', deadline: subDays(new Date(), -14).toISOString(), status: 'DONE' as ActionItemStatus, priority: 'HIGH', createdAt: subDays(new Date(), 3).toISOString() },
-  { id: 'demo-ai-4', meetingId: 'demo-meeting-4', ownerName: 'Marcus Johnson', task: 'Benchmark PostgreSQL vs CockroachDB for multi-region', deadline: subDays(new Date(), -10).toISOString(), status: 'PENDING' as ActionItemStatus, priority: 'LOW', createdAt: subDays(new Date(), 2).toISOString() },
-  { id: 'demo-ai-5', meetingId: 'demo-meeting-6', ownerName: 'Priya Patel', task: 'Design new semantic search result page', deadline: subDays(new Date(), -5).toISOString(), status: 'IN_PROGRESS' as ActionItemStatus, priority: 'MEDIUM', createdAt: subDays(new Date(), 1).toISOString() },
-  { id: 'demo-ai-6', meetingId: 'demo-meeting-1', ownerName: 'David Park', task: 'Implement rate limiting for search API', deadline: subDays(new Date(), -8).toISOString(), status: 'DONE' as ActionItemStatus, priority: 'HIGH', createdAt: subDays(new Date(), 6).toISOString() },
+  { id: 'demo-ai-1', meetingId: 'demo-meeting-1', ownerName: 'Sarah Chen', task: 'Finalize API contract for memory search endpoint', deadline: subDays(BASE_DATE, -3).toISOString(), status: 'IN_PROGRESS' as ActionItemStatus, priority: 'HIGH', createdAt: subDays(BASE_DATE, 5).toISOString() },
+  { id: 'demo-ai-2', meetingId: 'demo-meeting-2', ownerName: 'Alex Kim', task: 'Investigate alternative text embedding models', deadline: subDays(BASE_DATE, -7).toISOString(), status: 'PENDING' as ActionItemStatus, priority: 'MEDIUM', createdAt: subDays(BASE_DATE, 4).toISOString() },
+  { id: 'demo-ai-3', meetingId: 'demo-meeting-3', ownerName: 'Elena Rodriguez', task: 'Create migration plan for micro-frontend architecture', deadline: subDays(BASE_DATE, -14).toISOString(), status: 'DONE' as ActionItemStatus, priority: 'HIGH', createdAt: subDays(BASE_DATE, 3).toISOString() },
+  { id: 'demo-ai-4', meetingId: 'demo-meeting-4', ownerName: 'Marcus Johnson', task: 'Benchmark PostgreSQL vs CockroachDB for multi-region', deadline: subDays(BASE_DATE, -10).toISOString(), status: 'PENDING' as ActionItemStatus, priority: 'LOW', createdAt: subDays(BASE_DATE, 2).toISOString() },
+  { id: 'demo-ai-5', meetingId: 'demo-meeting-6', ownerName: 'Priya Patel', task: 'Design new semantic search result page', deadline: subDays(BASE_DATE, -5).toISOString(), status: 'IN_PROGRESS' as ActionItemStatus, priority: 'MEDIUM', createdAt: subDays(BASE_DATE, 1).toISOString() },
+  { id: 'demo-ai-6', meetingId: 'demo-meeting-1', ownerName: 'David Park', task: 'Implement rate limiting for search API', deadline: subDays(BASE_DATE, -8).toISOString(), status: 'DONE' as ActionItemStatus, priority: 'HIGH', createdAt: subDays(BASE_DATE, 6).toISOString() },
 ]
 
 export const demoDecisions = [
-  { id: 'demo-dec-1', meetingId: 'demo-meeting-3', decisionText: 'Adopt micro-frontend architecture for dashboard module', decisionMaker: 'Elena Rodriguez', alternativesDiscussed: 'Monorepo with module federation, iframe-based isolation', finalOutcome: 'Approved for Q2 implementation', decidedAt: subDays(new Date(), 3).toISOString(), createdAt: subDays(new Date(), 3).toISOString() },
-  { id: 'demo-dec-2', meetingId: 'demo-meeting-2', decisionText: 'Prioritize semantic search over advanced filtering', decisionMaker: 'Priya Patel', alternativesDiscussed: 'Build both in parallel, delay search to Q3', finalOutcome: 'Semantic search to ship first', decidedAt: subDays(new Date(), 5).toISOString(), createdAt: subDays(new Date(), 5).toISOString() },
-  { id: 'demo-dec-3', meetingId: 'demo-meeting-6', decisionText: 'Standardize on Tailwind CSS v4 across all frontend apps', decisionMaker: 'Marcus Johnson', alternativesDiscussed: 'Stay with v3, migrate to Panda CSS', finalOutcome: 'Migration to begin next sprint', decidedAt: subDays(new Date(), 7).toISOString(), createdAt: subDays(new Date(), 7).toISOString() },
-  { id: 'demo-dec-4', meetingId: 'demo-meeting-7', decisionText: 'Harden JWT token rotation mechanism', decisionMaker: 'Sarah Chen', alternativesDiscussed: 'Replace with OAuth 2.0, maintain current approach', finalOutcome: 'Implement refresh token rotation', decidedAt: subDays(new Date(), 2).toISOString(), createdAt: subDays(new Date(), 2).toISOString() },
-  { id: 'demo-dec-5', meetingId: 'demo-meeting-4', decisionText: 'Deliver knowledge graph visualization by end of Q2', decisionMaker: 'Alex Kim', alternativesDiscussed: 'Use third-party library, build in-house', finalOutcome: 'Build custom D3-based visualization', decidedAt: subDays(new Date(), 4).toISOString(), createdAt: subDays(new Date(), 4).toISOString() },
+  { id: 'demo-dec-1', meetingId: 'demo-meeting-3', decisionText: 'Adopt micro-frontend architecture for dashboard module', decisionMaker: 'Elena Rodriguez', alternativesDiscussed: 'Monorepo with module federation, iframe-based isolation', finalOutcome: 'Approved for Q2 implementation', decidedAt: subDays(BASE_DATE, 3).toISOString(), createdAt: subDays(BASE_DATE, 3).toISOString() },
+  { id: 'demo-dec-2', meetingId: 'demo-meeting-2', decisionText: 'Prioritize semantic search over advanced filtering', decisionMaker: 'Priya Patel', alternativesDiscussed: 'Build both in parallel, delay search to Q3', finalOutcome: 'Semantic search to ship first', decidedAt: subDays(BASE_DATE, 5).toISOString(), createdAt: subDays(BASE_DATE, 5).toISOString() },
+  { id: 'demo-dec-3', meetingId: 'demo-meeting-6', decisionText: 'Standardize on Tailwind CSS v4 across all frontend apps', decisionMaker: 'Marcus Johnson', alternativesDiscussed: 'Stay with v3, migrate to Panda CSS', finalOutcome: 'Migration to begin next sprint', decidedAt: subDays(BASE_DATE, 7).toISOString(), createdAt: subDays(BASE_DATE, 7).toISOString() },
+  { id: 'demo-dec-4', meetingId: 'demo-meeting-7', decisionText: 'Harden JWT token rotation mechanism', decisionMaker: 'Sarah Chen', alternativesDiscussed: 'Replace with OAuth 2.0, maintain current approach', finalOutcome: 'Implement refresh token rotation', decidedAt: subDays(BASE_DATE, 2).toISOString(), createdAt: subDays(BASE_DATE, 2).toISOString() },
+  { id: 'demo-dec-5', meetingId: 'demo-meeting-4', decisionText: 'Deliver knowledge graph visualization by end of Q2', decisionMaker: 'Alex Kim', alternativesDiscussed: 'Use third-party library, build in-house', finalOutcome: 'Build custom D3-based visualization', decidedAt: subDays(BASE_DATE, 4).toISOString(), createdAt: subDays(BASE_DATE, 4).toISOString() },
 ]
 
 export const demoMeetingGrowth = demoMonthlyMeetings

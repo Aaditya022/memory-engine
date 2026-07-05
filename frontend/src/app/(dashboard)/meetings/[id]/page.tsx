@@ -118,7 +118,7 @@ export default function MeetingDetailPage() {
     manual: 'Manual',
   }
   const sourceLabel = sourceLabels[meeting.source] ?? meeting.source ?? 'Unknown'
-  const date = meeting.createdAt ? new Date(meeting.createdAt) : new Date()
+  const date = meeting.createdAt ? new Date(meeting.createdAt) : new Date('2026-07-05')
 
   const tabs = [
     { value: 'overview', label: 'Overview', icon: Network },

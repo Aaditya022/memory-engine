@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, memo } from 'react'
+import { useState, useRef, useCallback, useEffect, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip,
@@ -199,7 +199,7 @@ function DashboardHero({
                 <span className="text-[10px] font-semibold text-emerald-500/90 uppercase tracking-[0.08em]">All Systems Online</span>
               </div>
               <span className="text-[10px] text-muted-foreground/40">·</span>
-              <span className="text-[10px] text-muted-foreground/50 font-mono">{format(new Date(), 'HH:mm:ss')} UTC</span>
+              {mounted && <span className="text-[10px] text-muted-foreground/50 font-mono">{format(new Date(), 'HH:mm:ss')} UTC</span>}
             </div>
 
             <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">
@@ -341,16 +341,18 @@ export function DashboardContent({ stats, meetings, timeline, actionItems, searc
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([])
   const [searching, setSearching] = useState(false)
   const searchRef = useRef<HTMLInputElement>(null)
-  const [greeting] = useState(() => {
+  const [mounted, setMounted] = useState(false)
+  const [greeting, setGreeting] = useState('Good morning')
+  const [timeGreeting, setTimeGreeting] = useState('Start your day with purpose')
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
     const h = new Date().getHours()
-    return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
-  })
-  const [timeGreeting] = useState(() => {
-    const h = new Date().getHours()
-    if (h < 12) return 'Start your day with purpose'
-    if (h < 17) return 'Keep the momentum going'
-    return 'Wrap up and reflect'
-  })
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setGreeting(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening')
+    setTimeGreeting(h < 12 ? 'Start your day with purpose' : h < 17 ? 'Keep the momentum going' : 'Wrap up and reflect')
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, [])
 
   const pendingItems = actionItems.filter((i) => i.status === 'PENDING' || i.status === 'IN_PROGRESS')
 

@@ -22,7 +22,10 @@ const services: Service[] = [
 ]
 
 export function StatusWidget() {
+  const [mounted, setMounted] = useState(false)
   const [lastChecked, setLastChecked] = useState(new Date())
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     const interval = setInterval(() => setLastChecked(new Date()), 30000)
@@ -37,7 +40,7 @@ export function StatusWidget() {
         <h3 className="text-xs font-semibold text-foreground/80">System Status</h3>
         <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
           <RefreshCw className="h-3 w-3" />
-          {lastChecked.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {mounted ? lastChecked.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
         </div>
       </div>
       <div className="space-y-2">
