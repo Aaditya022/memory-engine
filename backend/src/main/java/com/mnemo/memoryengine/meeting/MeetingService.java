@@ -54,7 +54,6 @@ public MeetingResponse createMeeting(AuthenticatedPrincipal principal, CreateMee
     // collection, and with open-in-view disabled that access must happen inside a
     // transaction or it throws LazyInitializationException.
     @Transactional(readOnly = true)
-    @Cacheable(value = "meetings", key = "#organizationId + '-' + #pageable.pageNumber")
     public Page<MeetingResponse> listMeetings(UUID organizationId, Pageable pageable) {
         return meetingRepository.findByOrganizationId(organizationId, pageable).map(MeetingResponse::from);
     }

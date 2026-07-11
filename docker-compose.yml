@@ -32,6 +32,7 @@ services:
   kafka:
     image: bitnamilegacy/kafka:4.0.0-debian-12-r10
     container_name: memory-engine-kafka
+    hostname: kafka
     ports:
       - "9092:9092"
     environment:
@@ -45,7 +46,7 @@ services:
       KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_KRAFT_CLUSTER_ID: cognee-cluster
+      KAFKA_KRAFT_CLUSTER_ID: 3iknCvM_TKW9tyXLZldreg
       ALLOW_PLAINTEXT_LISTENER: yes
     healthcheck:
       test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list"]

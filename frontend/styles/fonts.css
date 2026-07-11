@@ -1,0 +1,198 @@
+/* ============================================================
+   TYPOGRAPHY SYSTEM — Memory Engine
+   Display: Instrument Serif (editorial, premium headings)
+   Body:    Inter (clean, legible UI)
+   Based on Major Third (1.25) modular scale with fluid clamp()
+   ============================================================ */
+
+/* ---------- @font-face (self-hosted) ----------
+   Place woff2 files in /public/fonts/ in this structure:
+     public/fonts/inter/Inter-400.woff2
+     public/fonts/inter/Inter-500.woff2
+     public/fonts/inter/Inter-600.woff2
+     public/fonts/inter/Inter-700.woff2
+     public/fonts/instrument-serif/InstrumentSerif-400.woff2
+     public/fonts/instrument-serif/InstrumentSerif-400-Italic.woff2
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/instrument-serif/InstrumentSerif-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/instrument-serif/InstrumentSerif-400-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+*/
+
+/* ---------- Google Fonts fallback ----------
+   Use this in layout.tsx if not self-hosting:
+   import { Inter, Instrument_Serif } from 'next/font/google'
+
+   Or via CSS @import:
+   @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+*/
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  /* Font families */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ---------- Fluid Type Scale (Major Third 1.25) ----------
+     Scales smoothly from 375px to 1440px viewport width.
+     Formula: clamp(min, min + (max-min) * ((100vw - 375) / 1065), max)
+  */
+
+  /* Display / Serif — large, editorial */
+  --text-hero: clamp(3rem, 0.5rem + 8vw, 8rem);
+  --text-h1:   clamp(2.5rem, 1.25rem + 4.5vw, 5rem);
+  --text-h2:   clamp(2rem, 1rem + 3.5vw, 3.75rem);
+  --text-h3:   clamp(1.5rem, 0.875rem + 2vw, 2.75rem);
+
+  /* Body / UI — Inter */
+  --text-h4:      clamp(1.25rem, 1rem + 0.75vw, 1.5rem);
+  --text-body-lg: clamp(1.125rem, 0.95rem + 0.6vw, 1.375rem);
+  --text-body:    clamp(1rem, 0.9rem + 0.3vw, 1.125rem);
+  --text-body-sm: clamp(0.875rem, 0.8rem + 0.2vw, 0.9375rem);
+  --text-nav:     clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
+  --text-caption: clamp(0.7rem, 0.65rem + 0.15vw, 0.8125rem);
+}
+
+/* ---------- Utility Classes ---------- */
+
+/* Display (Instrument Serif) — headlines & hero */
+.text-hero {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+/* Body (Inter) — clean sans-serif UI */
+.text-h4 {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.text-body-lg {
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+.text-body-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.text-nav {
+  font-family: var(--font-body);
+  font-size: var(--text-nav);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Eyebrow / overline — uppercase nav-style microcopy */
+.text-overline {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Pull quote — editorial serif for emphasis */
+.text-pull-quote {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}

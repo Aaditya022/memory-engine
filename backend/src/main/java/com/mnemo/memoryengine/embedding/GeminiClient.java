@@ -97,4 +97,47 @@ public class GeminiClient {
     public String generationModel() {
         return generationModel;
     }
+
+    @SuppressWarnings("unchecked")
+    public String complete(String systemInstruction, List<Map<String, Object>> contents) {
+        if (apiKey == null || apiKey.isBlank()) {
+            return "AI assistant is not configured. Set GEMINI_API_KEY to enable AI features.";
+        }
+
+        try {
+            Map<String, Object> body = new java.util.LinkedHashMap<>();
+            if (systemInstruction != null && !systemInstruction.isBlank()) {
+                body.put("systemInstruction", Map.of("parts", List.of(Map.of("text", systemInstruction))));
+            }
+            body.put("contents", contents);
+
+            Map<String, Object> response = webClient.post()
+                    .uri("/models/{model}:generateContent?key={key}", generationModel, apiKey)
+                    .bodyValue(body)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
+
+            if (response == null) return "No response from AI model.";
+
+            List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
+            if (candidates == null || candidates.isEmpty()) return "No response from AI model.";
+
+            Map<String, Object> candidate = candidates.get(0);
+            Map<String, Object> content = (Map<String, Object>) candidate.get("content");
+            if (content == null) return "No response from AI model.";
+
+            List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
+            if (parts == null || parts.isEmpty()) return "No response from AI model.";
+
+            StringBuilder result = new StringBuilder();
+            for (Map<String, Object> part : parts) {
+                result.append(part.getOrDefault("text", ""));
+            }
+            return result.toString();
+        } catch (Exception ex) {
+            return "Sorry, I encountered an error: " + ex.getMessage();
+        }
+    }
+
 }
